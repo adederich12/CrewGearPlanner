@@ -11,11 +11,11 @@ const getters = {
     },
     gauntletStats (state) {
         return state.playerStats.gauntlet;
-    }
+    },
 }
 
 const actions = {
-    getVoyageStats ({ commit, rootState }) {
+    getTotalStats ({ commit, rootState }) {
         var crew = rootState.crew.crew;
         var voyageStats = {
             com: 0,
@@ -35,9 +35,10 @@ const actions = {
         }
 
         crew.forEach((crewMember) => {
-            for (const skill in crewMember.skills) {
-                voyageStats[skill.substring(0, 3)] += crewMember.skills[skill].core;
-                gauntletStats[skill.substring(0, 3)] += crewMember.skills[skill].range_max;
+            var crewSkills = (typeof(crewMember.skills) !== 'undefined') ? crewMember.skills : crewMember.base_skills;
+            for (const skill in crewSkills) {
+                voyageStats[skill.substring(0, 3)] += crewSkills[skill].core;
+                gauntletStats[skill.substring(0, 3)] += crewSkills[skill].range_max;
             }
         })
 
@@ -62,10 +63,3 @@ export default {
     actions,
     mutations
 }
-
-//   function addSkillTotals(skills) {
-//       for (const skill in skills) {
-//           playerSkills.voyage[skill.substring(0, 3)] += skills[skill].core;
-//           playerSkills.gauntlet[skill.substring(0, 3)] += skills[skill].range_max;
-//       }
-//   }

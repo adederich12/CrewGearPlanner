@@ -2,8 +2,11 @@ const defaults = {
     rarity: [4,5],
     includeFullyCited: true,
     includeMaxLevel: true,
-    skills: ['com','dip','eng','sec','med','sci'],
+    includeProjected: true,
+    includeUnowned: true,
+    skills: [],
     sort: 'tier',
+    limit: 1000,
 }
 
 const state = () => ({
@@ -20,11 +23,20 @@ const getters = {
     includeMaxLevel (state) {
         return state.controlValues.includeMaxLevel
     },
+    includeProjected (state) {
+        return state.controlValues.includeProjected
+    },
+    includeUnowned (state) {
+        return state.controlValues.includeUnowned
+    },
     skills (state) {
         return state.controlvalues.skills
     },
     sort (state) {
         return state.controlValues.sort
+    },
+    limit (state) {
+        return state.controlValues.limit
     }
 }
 

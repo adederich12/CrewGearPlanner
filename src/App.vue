@@ -1,26 +1,41 @@
 <template>
   <div id="app">
-    <CrewControls />
+    <CrewControls @clicked="onControlChange" />
     <CrewListing />
-    <VoyageSkillGraph />
-    <GauntletSkillGraph />
+    <SkillGraph graphTitle="Total Voyage Skills" :skillTotals="voyageTotals" />
+    <SkillGraph graphTitle="Total Gauntlet Skills" :skillTotals="gauntletTotals" />
   </div>
 </template>
 
 <script>
 import CrewControls from './components/CrewControls.vue'
 import CrewListing from './components/CrewListing.vue'
-import VoyageSkillGraph from './components/VoyageSkillGraph.vue'
-import GauntletSkillGraph from './components/GauntletSkillGraph'
+import SkillGraph from './components/SkillGraph.vue'
+import { mapState } from 'vuex' 
 
 export default {
   name: 'App',
+  computed: mapState({
+    voyageTotals: (state) => {
+      return state.player.playerStats.voyage;
+    },
+    gauntletTotals: (state) => {
+      return state.player.playerStats.gauntlet;
+    },
+  }),
   components: {
     CrewControls,
     CrewListing,
-    VoyageSkillGraph,
-    GauntletSkillGraph,
+    SkillGraph,
   },
+  methods: {
+    onControlChange () {
+      this.$store.dispatch('player/getTotalStats');
+    }
+  },
+  mounted() {
+    this.$store.dispatch('player/getTotalStats');
+  }
 }
 </script>
 
